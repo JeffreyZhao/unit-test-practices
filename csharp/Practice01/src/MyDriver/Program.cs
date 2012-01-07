@@ -14,13 +14,15 @@ namespace MyDriver
 
             try
             {
+                driver.Connect();
                 driver.AddQuery(1);
                 driver.AddQuery(2);
                 driver.AddQuery(3);
             }
             catch
             {
-                Console.WriteLine("Error occurred when add query.");
+                driver.Close();
+                Console.WriteLine("Error occurred when connect or add query.");
                 Environment.Exit(1);
             }
 
@@ -47,6 +49,7 @@ namespace MyDriver
             }
             catch (MyDriverException)
             {
+                driver.Close();
                 Console.WriteLine("Error occurred when receive data.");
             }
         }

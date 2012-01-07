@@ -19,23 +19,33 @@ namespace MyDriver
             new Thread(FeedData).Start();
         }
 
+        public void Connect()
+        {
+            if (this._random.NextDouble() < 0.01)
+            {
+                throw new MyDriverException("Error occurred when add query.");
+            }
+        }
+
         public void AddQuery(int queryId)
         {
-            if (this._random.NextDouble() < 0.05)
+            if (this._random.NextDouble() < 0.01)
             {
                 throw new MyDriverException("Error occurred when add query.");
             }
 
             lock (this._queryIds)
             {
-                this._queryIds.Add(queryId);
-                this._dataCollection.Add(new MyData(queryId, "begin"));
+                if (this._queryIds.Add(queryId))
+                {
+                    this._dataCollection.Add(new MyData(queryId, "begin"));
+                }
             }
         }
 
         public void RemoveQuery(int queryId)
         {
-            if (this._random.NextDouble() < 0.05)
+            if (this._random.NextDouble() < 0.01)
             {
                 throw new MyDriverException("Error occurred when remove query.");
             }
