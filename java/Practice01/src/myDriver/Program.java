@@ -1,4 +1,4 @@
-package myClient;
+package myDriver;
 
 public class Program {
 
@@ -7,14 +7,14 @@ public class Program {
 	 */
 	public static void main(String[] args) {
 		
-		final MySender sender = new MySender("jeffz://server:12345");
+		final MyDriver driver = new MyDriver("jeffz://server:12345");
 
         try {
-            sender.addQuery(1);
-            sender.addQuery(2);
-            sender.addQuery(3);
+            driver.addQuery(1);
+            driver.addQuery(2);
+            driver.addQuery(3);
         }
-        catch (MyClientException ex) {
+        catch (MyDriverException ex) {
             System.out.println("Error occurred when add query.");
             System.exit(1);
         }
@@ -23,16 +23,16 @@ public class Program {
 
 			@Override
 			public void run() {
-				receiveData(sender.getReceiver());
+				receiveData(driver);
 			}
 			
         }).start();
 	}
 
-	private static void receiveData(MyReceiver receiver) {
+	private static void receiveData(MyDriver driver) {
 		try {
             while (true) {
-                MyData data = receiver.receive();
+                MyData data = driver.receive();
                 if (data == null) {
                     System.out.println("Closed");
                     break;
@@ -42,7 +42,7 @@ public class Program {
                 }
             }
         }
-        catch (MyClientException ex) {
+        catch (MyDriverException ex) {
             System.out.println("Error occurred when receive data.");
         }
 	}

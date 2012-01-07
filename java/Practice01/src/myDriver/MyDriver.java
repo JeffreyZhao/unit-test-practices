@@ -1,4 +1,4 @@
-package myClient;
+package myDriver;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,37 +6,45 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public final class MyReceiver {
+public final class MyDriver {
 	
 	private Set<Integer> _queryIds = new HashSet<Integer>();
 	private BlockingQueue<MyData> _dataQueue = new LinkedBlockingQueue<MyData>();
 	private AtomicBoolean _isClosed = new AtomicBoolean(false);
 	
-	protected MyReceiver() {
+	public MyDriver(String uri) {
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				MyReceiver.this.feedData();
+				MyDriver.this.feedData();
 			}
 			
 		}).start();
 	}
 	
-	protected void addQuery(int id) {
+	public void addQuery(int id) {
+		if (Math.random() < 0.05) {
+            throw new MyDriverException("Error occurred when add query.");
+        }
+		
 		synchronized (this._queryIds) {
 			this._queryIds.add(id);
 			this._dataQueue.add(new MyData(id, "begin"));
 		}
 	}
 	
-	protected void removeQuery(int id) {
+	public void removeQuery(int id) {
+		if (Math.random() < 0.05) {
+            throw new MyDriverException("Error occurred when receive query.");
+        }
+		
 		synchronized (this._queryIds) {
 			this._queryIds.remove(id);
 		}
 	}
 	
-	protected void close() {
+	public void close() {
 		synchronized (this._queryIds) {
 			this._isClosed.set(true);
 			this._dataQueue.clear();
@@ -65,7 +73,7 @@ public final class MyReceiver {
 		if (this._isClosed.get()) return null;
 
         if (Math.random() < 0.01) {
-            throw new MyClientException("Error occurred when receive.");
+            throw new MyDriverException("Error occurred when receive.");
         }
 
         try {
