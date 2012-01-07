@@ -43,12 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyData.cs" />
-    <Compile Include="MySender.cs" />
-    <Compile Include="MyClientException.cs" />
-    <Compile Include="MyReceiver.cs" />
+    <Compile Include="IMySubscriber.cs" />
+    <Compile Include="MyConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDriver\MyDriver.csproj">
+      <Project>{DA64C69A-45E3-4C62-8E35-28D8B850FC40}</Project>
+      <Name>MyDriver</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

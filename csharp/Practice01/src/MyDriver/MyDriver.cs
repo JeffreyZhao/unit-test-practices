@@ -2,42 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Concurrent;
 using System.Threading;
+using System.Collections.Concurrent;
 
-namespace MyClient
+namespace MyDriver
 {
-    public sealed class MyReceiver
+    public sealed class MyDriver
     {
         private readonly Random _random = new Random(DateTime.Now.Millisecond);
-
         private readonly HashSet<int> _queryIds = new HashSet<int>();
         private readonly BlockingCollection<MyData> _dataCollection = new BlockingCollection<MyData>(10000);
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
-        internal MyReceiver()
+        public MyDriver(string uri)
         {
             new Thread(FeedData).Start();
         }
 
-        internal void AddQuery(int id)
+        public void AddQuery(int queryId)
         {
+            if (this._random.NextDouble() < 0.05)
+            {
+                throw new MyDriverException("Error occurred when add query.");
+            }
+
             lock (this._queryIds)
             {
-                this._queryIds.Add(id);
-                this._dataCollection.Add(new MyData(id, "begin"));
+                this._queryIds.Add(queryId);
+                this._dataCollection.Add(new MyData(queryId, "begin"));
             }
         }
 
-        internal void RemoveQuery(int id)
+        public void RemoveQuery(int queryId)
         {
+            if (this._random.NextDouble() < 0.05)
+            {
+                throw new MyDriverException("Error occurred when remove query.");
+            }
+
             lock (this._queryIds)
             {
-                this._queryIds.Remove(id);
+                this._queryIds.Remove(queryId);
             }
         }
 
-        internal void Close()
+        public void Close()
         {
             this._cts.Cancel();
         }
@@ -64,7 +73,7 @@ namespace MyClient
 
             if (this._random.NextDouble() < 0.01)
             {
-                throw new MyClientException("Error occurred when receive.");
+                throw new MyDriverException("Error occurred when receive.");
             }
 
             try

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyClient
+namespace MyDriver
 {
-    public sealed class MyClientException : Exception
+    public sealed class MyDriverException : Exception
     {
-        public MyClientException(string message)
+        public MyDriverException(string message)
             : base(message)
         { }
     }
