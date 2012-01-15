@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{87ACAB0B-322
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDriver", "src\MyDriver\MyDriver.csproj", "{DA64C69A-45E3-4C62-8E35-28D8B850FC40}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4FC14058-8F95-44EE-9BF9-12DD45BEF18F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClient.Tests", "tests\MyClient.Tests\MyClient.Tests.csproj", "{218680A2-0B5C-4395-99E1-C5F1606AF7C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,16 @@ Global
 		{DA64C69A-45E3-4C62-8E35-28D8B850FC40}.Release|Mixed Platforms.Build.0 = Release|x86
 		{DA64C69A-45E3-4C62-8E35-28D8B850FC40}.Release|x86.ActiveCfg = Release|x86
 		{DA64C69A-45E3-4C62-8E35-28D8B850FC40}.Release|x86.Build.0 = Release|x86
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +58,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F4997BBA-C0EF-4778-A642-2CD75D07495B} = {87ACAB0B-3221-4784-B7D0-C242751A72D9}
 		{DA64C69A-45E3-4C62-8E35-28D8B850FC40} = {87ACAB0B-3221-4784-B7D0-C242751A72D9}
+		{218680A2-0B5C-4395-99E1-C5F1606AF7C7} = {4FC14058-8F95-44EE-9BF9-12DD45BEF18F}
 	EndGlobalSection
 EndGlobal
