@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyDriver.cs" />
+    <Compile Include="MyDriverClient.cs" />
     <Compile Include="MyDriverException.cs" />
     <Compile Include="MyData.cs" />
     <Compile Include="Program.cs" />

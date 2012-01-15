@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Driver\MyDriverClient.cs" />
     <Compile Include="IMySubscriber.cs" />
     <Compile Include="MyConnection.cs" />
     <Compile Include="Program.cs" />

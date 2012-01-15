@@ -7,14 +7,14 @@ using System.Collections.Concurrent;
 
 namespace MyDriver
 {
-    public sealed class MyDriver
+    public sealed class MyDriverClient
     {
         private readonly Random _random = new Random(DateTime.Now.Millisecond);
         private readonly HashSet<int> _queryIds = new HashSet<int>();
         private readonly BlockingCollection<MyData> _dataCollection = new BlockingCollection<MyData>(10000);
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public MyDriver(string uri)
+        public MyDriverClient(string uri)
         {
             new Thread(FeedData).Start();
         }

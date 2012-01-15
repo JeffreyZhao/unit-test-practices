@@ -10,7 +10,7 @@ namespace MyDriver
     {
         static void Main(string[] args)
         {
-            var driver = new MyDriver("jeffz://server:12345");
+            var driver = new MyDriverClient("jeffz://server:12345");
 
             try
             {
@@ -29,7 +29,7 @@ namespace MyDriver
             new Thread(() => ReceiveData(driver)).Start();
         }
 
-        private static void ReceiveData(MyDriver driver)
+        private static void ReceiveData(MyDriverClient driver)
         {
             try
             {
