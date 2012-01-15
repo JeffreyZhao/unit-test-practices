@@ -31,7 +31,7 @@ namespace MyWork
 
         public event EventHandler Connected;
 
-        public event EventHandler ConnectionFailed;
+        public event EventHandler ConnectFailed;
 
         public event EventHandler Disconnected;
     }
