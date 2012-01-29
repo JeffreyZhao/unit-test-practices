@@ -43,11 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConnectionEventFirer.cs" />
     <Compile Include="Driver\MyDriverClient.cs" />
     <Compile Include="IMySubscriber.cs" />
     <Compile Include="MyConnection.cs" />
+    <Compile Include="MyConnector.cs" />
+    <Compile Include="MySubscriptionManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\ThreadUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyDriver\MyDriver.csproj">
