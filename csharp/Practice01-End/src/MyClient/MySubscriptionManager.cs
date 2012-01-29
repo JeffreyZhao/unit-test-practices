@@ -10,7 +10,7 @@ namespace MyClient
         IMySubscriptionManager Create(string name);
     }
 
-    internal interface IMySubscriptionManager
+    internal interface IMySubscriptionManager : IDisposable
     {
         void OnConnected(object sender, EventArgs args);
         void OnDisconnected(object sender, EventArgs args);
@@ -43,6 +43,11 @@ namespace MyClient
         public void OnDisconnected(object sender, EventArgs args)
         {
  
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

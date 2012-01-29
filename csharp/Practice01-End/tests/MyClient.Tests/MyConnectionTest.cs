@@ -22,7 +22,7 @@ namespace MyClient.Tests
         internal Mock<IMyConnector> _connectorMock;
         internal Mock<IMyConnectorFactory> _connectorFactoryMock;
 
-        internal Mock<MyConnection> _connectionMock;
+        internal MyConnection _connection;
 
         public MyConnectionTest()
         {
@@ -39,12 +39,12 @@ namespace MyClient.Tests
             this._connectorFactoryMock = new Mock<IMyConnectorFactory>(MockBehavior.Strict);
             this._connectorFactoryMock.Setup(f => f.Create(this._uris, It.IsAny<IConnectionEventFirer>())).Returns(this._connectorMock.Object);
 
-            this._connectionMock = new Mock<MyConnection>(
+            this._connection = new MyConnection(
                 this._name,
                 this._uris,
                 this._threadUtilsMock.Object,
                 this._subscriptionManagerFactoryMock.Object,
-                this._connectorFactoryMock.Object) { CallBase = true };
+                this._connectorFactoryMock.Object);
         }
 
         public class Open : MyConnectionTest
@@ -54,7 +54,7 @@ namespace MyClient.Tests
             {
                 this._connectorMock.Setup(c => c.Connect());
 
-                this._connectionMock.Object.Open();
+                this._connection.Open();
 
                 this._threadUtilsMock.Verify(tu => tu.StartNew("MyConnector_" + this._name, It.IsAny<ThreadStart>()), Times.Once());
                 this._connectorMock.Verify(c => c.Connect(), Times.Never());
@@ -71,9 +71,9 @@ namespace MyClient.Tests
             {
                 this._subscriptionManagerMock.Setup(m => m.OnConnected(It.IsAny<MyConnection>(), EventArgs.Empty));
 
-                ((IConnectionEventFirer)this._connectionMock.Object).FireConnected();
+                ((IConnectionEventFirer)this._connection).FireConnected();
 
-                this._subscriptionManagerMock.Verify(m => m.OnConnected(this._connectionMock.Object, EventArgs.Empty), Times.Once());
+                this._subscriptionManagerMock.Verify(m => m.OnConnected(this._connection, EventArgs.Empty), Times.Once());
             }
         }
 
@@ -84,9 +84,25 @@ namespace MyClient.Tests
             {
                 this._subscriptionManagerMock.Setup(m => m.OnDisconnected(It.IsAny<MyConnection>(), EventArgs.Empty));
 
-                ((IConnectionEventFirer)this._connectionMock.Object).FireDisconnected();
+                ((IConnectionEventFirer)this._connection).FireDisconnected();
 
-                this._subscriptionManagerMock.Verify(m => m.OnDisconnected(this._connectionMock.Object, EventArgs.Empty), Times.Once());
+                this._subscriptionManagerMock.Verify(m => m.OnDisconnected(this._connection, EventArgs.Empty), Times.Once());
+            }
+        }
+
+        public class Disposed : MyConnectionTest
+        {
+            [Fact]
+            public void Call_UnregisterHandlersAndDisposeManager()
+            {
+                this._subscriptionManagerMock.Setup(m => m.Dispose());
+
+                this._connection.Dispose();
+
+                this._subscriptionManagerMock.Verify(m => m.Dispose(), Times.Once());
+
+                ((IConnectionEventFirer)this._connection).FireConnected();
+                ((IConnectionEventFirer)this._connection).FireDisconnected();
             }
         }
     }
