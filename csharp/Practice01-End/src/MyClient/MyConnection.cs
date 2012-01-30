@@ -67,6 +67,7 @@ namespace MyClient
             this.Disconnected -= this._subscriptionManager.OnDisconnected;
 
             this._subscriptionManager.Dispose();
+            this._connector.Dispose();
         }
 
         void IConnectionEventFirer.FireConnected()

@@ -13,6 +13,8 @@ namespace MyClient.Tests.Threading
             this._start = start;
         }
 
+        public void Sleep(int millisecondsTimeout) { }
+
         public void Execute()
         {
             if (this._start != null) this._start();

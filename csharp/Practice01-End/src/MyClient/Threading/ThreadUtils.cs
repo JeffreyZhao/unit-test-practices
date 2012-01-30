@@ -8,12 +8,19 @@ namespace MyClient.Threading
 {
     internal interface IThreadUtils
     {
+        void Sleep(int millisecondsTimeout);
+
         void StartNew(string name, ThreadStart start);
     }
 
     internal class ThreadUtils : IThreadUtils
     {
         public static readonly ThreadUtils Instance = new ThreadUtils();
+
+        public void Sleep(int millisecondsTimeout)
+        {
+            Thread.Sleep(millisecondsTimeout);
+        }
 
         public void StartNew(string name, ThreadStart start)
         {

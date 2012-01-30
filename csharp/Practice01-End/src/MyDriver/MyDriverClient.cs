@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace MyDriver
 {
-    public sealed class MyDriverClient
+    public sealed class MyDriverClient : IDisposable
     {
         private readonly Random _random = new Random(DateTime.Now.Millisecond);
         private readonly HashSet<int> _queryIds = new HashSet<int>();
@@ -56,7 +56,7 @@ namespace MyDriver
             }
         }
 
-        public void Close()
+        public void Dispose()
         {
             this._cts.Cancel();
         }

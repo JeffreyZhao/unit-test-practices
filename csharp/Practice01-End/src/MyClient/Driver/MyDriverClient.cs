@@ -6,7 +6,7 @@ using MyDriver;
 
 namespace MyClient.Driver
 {
-    internal interface IMyDriverClient
+    internal interface IMyDriverClient : IDisposable
     {
         void Connect();
     }
@@ -38,6 +38,11 @@ namespace MyClient.Driver
         public void Connect()
         {
             this._client.Connect();
+        }
+
+        public void Dispose()
+        {
+            this._client.Dispose();
         }
     }
 }
