@@ -34,7 +34,7 @@ namespace MyClient
             var client = this._connector.Client;
             if (client == null)
             {
-                Logger.Info("Connector isn't prepared. stop processing.");
+                Logger.Info("Connector isn't prepared, stop processing.");
                 return;
             }
 

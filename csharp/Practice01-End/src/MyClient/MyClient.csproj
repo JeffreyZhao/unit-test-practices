@@ -51,6 +51,7 @@
     <Compile Include="IMySubscriber.cs" />
     <Compile Include="MyConnection.cs" />
     <Compile Include="MyConnector.cs" />
+    <Compile Include="MyReceiver.cs" />
     <Compile Include="MyRequest.cs" />
     <Compile Include="MyRequestSender.cs" />
     <Compile Include="MySubscription.cs" />

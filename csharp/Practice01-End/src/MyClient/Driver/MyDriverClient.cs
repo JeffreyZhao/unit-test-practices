@@ -13,6 +13,8 @@ namespace MyClient.Driver
         void AddQuery(int queryId);
 
         void RemoveQuery(int queryId);
+
+        MyData Receive();
     }
 
     internal interface IMyDriverClientFactory
@@ -52,6 +54,11 @@ namespace MyClient.Driver
         public void RemoveQuery(int queryId)
         {
             this._client.RemoveQuery(queryId);
+        }
+
+        public MyData Receive()
+        {
+            return this._client.Receive();
         }
 
         public void Dispose()
