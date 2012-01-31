@@ -13,9 +13,11 @@ namespace MyClient
         IMyConnector Create(string[] uris, IConnectionEventFirer eventFirer);
     }
 
-    internal interface IMyConnector : IDisposable
+    internal interface IMyConnector
     {
         void Connect();
+
+        void CloseClient();
 
         IMyDriverClient Client { get; }
     }
@@ -96,13 +98,15 @@ namespace MyClient
             }
         }
 
-        public void Dispose()
+        public void CloseClient()
         {
             if (this.Client != null)
             {
                 this.Client.Dispose();
                 this.Client = null;
             }
+
+            this._eventFirer.FireDisconnected();
         }
     }
 }

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="MyConnectionTest.cs" />
     <Compile Include="MyConnectorTest.cs" />
+    <Compile Include="MyRequestSenderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\DelayThreadUtils.cs" />
   </ItemGroup>

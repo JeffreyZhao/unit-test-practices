@@ -90,18 +90,18 @@ namespace MyClient.Tests
             }
         }
 
-        public class Disposed : MyConnectionTest
+        public class Dispose : MyConnectionTest
         {
             [Fact]
             public void Call_UnregisterHandlersAndDisposeManager()
             {
                 this._subscriptionManagerMock.Setup(m => m.Dispose());
-                this._connectorMock.Setup(c => c.Dispose());
+                this._connectorMock.Setup(c => c.CloseClient());
 
                 this._connection.Dispose();
 
                 this._subscriptionManagerMock.Verify(m => m.Dispose(), Times.Once());
-                this._connectorMock.Verify(c => c.Dispose(), Times.Once());
+                this._connectorMock.Verify(c => c.CloseClient(), Times.Once());
 
                 ((IConnectionEventFirer)this._connection).FireConnected();
                 ((IConnectionEventFirer)this._connection).FireDisconnected();

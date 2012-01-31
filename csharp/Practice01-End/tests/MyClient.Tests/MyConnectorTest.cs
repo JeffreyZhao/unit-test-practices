@@ -101,7 +101,7 @@ namespace MyClient.Tests
             }
         }
 
-        public class Dispose : MyConnectorTest
+        public class CloseClient : MyConnectorTest
         {
             [Fact]
             public void Call_ClientIsNull_ClientDisposed()
@@ -113,13 +113,16 @@ namespace MyClient.Tests
                 this._clientFactoryMock.Setup(f => f.Create(this._uris[0])).Returns(clientMock.Object);
 
                 this._eventFirerMock.Setup(f => f.FireConnected());
+                this._eventFirerMock.Setup(f => f.FireDisconnected());
 
                 this._connector.Connect();
 
-                this._connector.Dispose();
+                this._connector.CloseClient();
 
                 Assert.Null(this._connector.Client);
                 clientMock.Verify(c => c.Dispose(), Times.Once());
+
+                this._eventFirerMock.Verify(f => f.FireDisconnected(), Times.Once());
             }
         }
     }

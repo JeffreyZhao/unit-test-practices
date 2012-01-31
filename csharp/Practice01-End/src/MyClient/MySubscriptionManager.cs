@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace MyClient
 {
@@ -14,7 +15,12 @@ namespace MyClient
     internal interface IMySubscriptionManager : IDisposable
     {
         void OnConnected(object sender, EventArgs args);
+
         void OnDisconnected(object sender, EventArgs args);
+
+        void AddSubscription(MySubscription subscription);
+
+        void RemoveSubscription(int subscriptionId);
     }
 
     internal class MySubscriptionManager : IMySubscriptionManager
@@ -42,21 +48,31 @@ namespace MyClient
             : this(name, new ConcurrentDictionary<int, MySubscription>())
         { }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddSubscription(MySubscription subscription)
         {
- 
+            this._subscriptions.Add(subscription.QueryID, subscription);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void RemoveSubscription(int subscriptionId)
+        {
+            this._subscriptions.Remove(subscriptionId);
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void OnConnected(object sender, EventArgs args)
         {
             
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void OnDisconnected(object sender, EventArgs args)
         {
  
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Dispose()
         {
 

@@ -9,6 +9,10 @@ namespace MyClient.Driver
     internal interface IMyDriverClient : IDisposable
     {
         void Connect();
+
+        void AddQuery(int queryId);
+
+        void RemoveQuery(int queryId);
     }
 
     internal interface IMyDriverClientFactory
@@ -38,6 +42,16 @@ namespace MyClient.Driver
         public void Connect()
         {
             this._client.Connect();
+        }
+
+        public void AddQuery(int queryId)
+        {
+            this._client.AddQuery(queryId);
+        }
+
+        public void RemoveQuery(int queryId)
+        {
+            this._client.RemoveQuery(queryId);
         }
 
         public void Dispose()

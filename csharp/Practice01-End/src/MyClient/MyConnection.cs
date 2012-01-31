@@ -50,9 +50,16 @@ namespace MyClient
             this._threadUtils.StartNew("MyConnector_" + this._name, this._connector.Connect);
         }
 
-        public IDisposable Subscribe(int queryId, IMySubscriber subscriber)
+        public int Subscribe(IMySubscriber subscriber)
         {
-            throw new NotImplementedException();
+            var subscription = new MySubscription(subscriber);
+            this._subscriptionManager.AddSubscription(subscription);
+            return subscription.QueryID;
+        }
+
+        public void Unsubscribe(int subscriptionId)
+        {
+            this._subscriptionManager.RemoveSubscription(subscriptionId);
         }
 
         public event EventHandler Connected;
@@ -67,7 +74,7 @@ namespace MyClient
             this.Disconnected -= this._subscriptionManager.OnDisconnected;
 
             this._subscriptionManager.Dispose();
-            this._connector.Dispose();
+            this._connector.CloseClient();
         }
 
         void IConnectionEventFirer.FireConnected()
