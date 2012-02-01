@@ -9,7 +9,7 @@ using log4net;
 
 namespace MyClient
 {
-    internal interface IMyReceiver
+    internal interface IMyDataReceiver
     {
         void Process();
 
@@ -18,14 +18,14 @@ namespace MyClient
         CancellationToken CancellationToken { get; }
     }
 
-    internal class MyReceiver : IMyReceiver
+    internal class MyDataReceiver : IMyDataReceiver
     {
-        private static ILog Logger = LogManager.GetLogger(typeof(MyReceiver));
+        private static ILog Logger = LogManager.GetLogger(typeof(MyDataReceiver));
 
         private IMyConnector _connector;
         private CancellationTokenSource _cts;
 
-        public MyReceiver(IMyConnector connector)
+        public MyDataReceiver(IMyConnector connector)
         {
             this._connector = connector;
             this._cts = new CancellationTokenSource();
@@ -51,7 +51,7 @@ namespace MyClient
                 }
                 catch (MyDriverException ex)
                 {
-                    Logger.Error("Exception occurred when receiving, close the client and stop processing.", ex);
+                    Logger.Error("Exception thrown when receiving, close the client and stop processing.", ex);
 
                     this._connector.CloseClient();
                     this._cts.Cancel();

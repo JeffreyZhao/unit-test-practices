@@ -51,7 +51,8 @@
   <ItemGroup>
     <Compile Include="MyConnectionTest.cs" />
     <Compile Include="MyConnectorTest.cs" />
-    <Compile Include="MyReceiverTest.cs" />
+    <Compile Include="MyDataDispatcherTest.cs" />
+    <Compile Include="MyDataReceiverTest.cs" />
     <Compile Include="MyRequestSenderTest.cs" />
     <Compile Include="DummyException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

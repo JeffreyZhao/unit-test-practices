@@ -67,7 +67,7 @@ namespace MyClient
                     }
                     catch (MyDriverException ex)
                     {
-                        Logger.Error("Exception occurred when adding query, close the client and stop processing.", ex);
+                        Logger.Error("Exception thrown when adding query, close the client and stop processing.", ex);
 
                         this._connector.CloseClient();
                         return;

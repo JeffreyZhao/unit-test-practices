@@ -9,23 +9,23 @@ using MyDriver;
 
 namespace MyClient.Tests
 {
-    public class MyReceiverTest
+    public class MyDataReceiverTest
     {
         internal Mock<IMyDriverClient> _clientMock;
         internal Mock<IMyConnector> _connectorMock;
-        internal MyReceiver _receiver;
+        internal MyDataReceiver _receiver;
 
-        public MyReceiverTest()
+        public MyDataReceiverTest()
         {
             this._clientMock = new Mock<IMyDriverClient>(MockBehavior.Strict);
 
             this._connectorMock = new Mock<IMyConnector>(MockBehavior.Strict);
             this._connectorMock.Setup(c => c.Client).Returns(this._clientMock.Object);
 
-            this._receiver = new MyReceiver(this._connectorMock.Object);
+            this._receiver = new MyDataReceiver(this._connectorMock.Object);
         }
 
-        public class Process : MyReceiverTest
+        public class Process : MyDataReceiverTest
         {
             [Fact]
             public void DataReceived_PutIntoCollection()
