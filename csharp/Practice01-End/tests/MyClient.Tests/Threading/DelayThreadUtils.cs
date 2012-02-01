@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Threading;
 using MyClient.Threading;
+using System.Collections.Generic;
 
 namespace MyClient.Tests.Threading
 {
     public class DelayThreadUtils : IThreadUtils
     {
-        private ThreadStart _start;
+        private List<Action> _actionsToExecute = new List<Action>();
 
         public virtual void StartNew(string name, ThreadStart start)
         {
-            this._start = start;
+            this._actionsToExecute.Add(() => start());
         }
 
         public void Sleep(int millisecondsTimeout) { }
 
         public void Execute()
         {
-            if (this._start != null) this._start();
+            foreach (var action in this._actionsToExecute) action();
         }
     }
 }

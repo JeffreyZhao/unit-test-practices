@@ -9,6 +9,11 @@ using log4net;
 
 namespace MyClient
 {
+    internal interface IMyDataReceiverFactory
+    {
+        IMyDataReceiver Create(IMyConnector connector);
+    }
+
     internal interface IMyDataReceiver
     {
         void Process();
@@ -20,6 +25,16 @@ namespace MyClient
 
     internal class MyDataReceiver : IMyDataReceiver
     {
+        private class Factory : IMyDataReceiverFactory
+        {
+            public IMyDataReceiver Create(IMyConnector connector)
+            {
+                return new MyDataReceiver(connector);
+            }
+        }
+
+        public static readonly IMyDataReceiverFactory DefaultFactory = new Factory();
+
         private static ILog Logger = LogManager.GetLogger(typeof(MyDataReceiver));
 
         private IMyConnector _connector;

@@ -55,6 +55,7 @@
     <Compile Include="MyDataReceiverTest.cs" />
     <Compile Include="MyRequestSenderTest.cs" />
     <Compile Include="DummyException.cs" />
+    <Compile Include="MySubscriptionManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\DelayThreadUtils.cs" />
   </ItemGroup>

@@ -9,6 +9,11 @@ using MyDriver;
 
 namespace MyClient
 {
+    internal interface IMyRequestSenderFactory
+    {
+        IMyRequestSender Create(IMyConnector connector, BlockingCollection<MyRequest> pendingRequests, CancellationToken ct);
+    }
+
     internal interface IMyRequestSender
     {
         void Process();
@@ -16,6 +21,16 @@ namespace MyClient
 
     internal class MyRequestSender : IMyRequestSender
     {
+        private class Factory : IMyRequestSenderFactory
+        {
+            public IMyRequestSender Create(IMyConnector connector, BlockingCollection<MyRequest> pendingRequests, CancellationToken ct)
+            {
+                return new MyRequestSender(connector, pendingRequests, ct);
+            }
+        }
+
+        public static readonly IMyRequestSenderFactory DefaultFactory = new Factory();
+
         private static ILog Logger = LogManager.GetLogger(typeof(MyRequestSender));
 
         private IMyConnector _connector;

@@ -9,9 +9,32 @@ using log4net;
 
 namespace MyClient
 {
-    internal class MyDataDispatcher
+    internal interface IMyDataDispatcherFactory
     {
-        public static readonly ILog Logger = LogManager.GetLogger(typeof(MyDataDispatcher));
+        IMyDataDispatcher Create(
+            IDictionary<int, MySubscription> subscriptions,
+            BlockingCollection<MyData> dataCollection,
+            CancellationToken ct);
+    }
+
+    internal interface IMyDataDispatcher
+    {
+        void Process();
+    }
+
+    internal class MyDataDispatcher : IMyDataDispatcher
+    {
+        private class Factory : IMyDataDispatcherFactory
+        {
+            public IMyDataDispatcher Create(IDictionary<int, MySubscription> subscriptions, BlockingCollection<MyData> dataCollection, CancellationToken ct)
+            {
+                return new MyDataDispatcher(subscriptions, dataCollection, ct);
+            }
+        }
+
+        public static readonly IMyDataDispatcherFactory DefaultFactory = new Factory();
+
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(MyDataDispatcher));
 
         private IDictionary<int, MySubscription> _subscriptions;
         private BlockingCollection<MyData> _dataCollection;

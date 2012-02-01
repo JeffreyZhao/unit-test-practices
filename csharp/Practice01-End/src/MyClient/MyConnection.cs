@@ -15,30 +15,26 @@ namespace MyClient
 
         private string _name;
         private string[] _uris;
-        private IThreadUtils _threadUtils;
         private IMySubscriptionManager _subscriptionManager;
-        private IMyConnector _connector;
 
         internal MyConnection(
             string name,
             string[] uris,
-            IThreadUtils threadUtils,
-            IMySubscriptionManagerFactory subscriptionManagerFactory,
-            IMyConnectorFactory connectorFactory)
+            IMyConnectorFactory connectorFactory,
+            IMySubscriptionManagerFactory subscriptionManagerFactory)
         {
             this._name = name;
             this._uris = uris;
 
-            this._threadUtils = threadUtils;
-            this._subscriptionManager = subscriptionManagerFactory.Create(this._name);
-            this._connector = connectorFactory.Create(this._uris, this);
+            var connector = connectorFactory.Create(this._uris, this);
+            this._subscriptionManager = subscriptionManagerFactory.Create(this._name, connector);
 
             this.Connected += this._subscriptionManager.OnConnected;
             this.Disconnected += this._subscriptionManager.OnDisconnected;
         }
 
         public MyConnection(string name, string[] uris)
-            : this(name, uris, ThreadUtils.Instance, MySubscriptionManager.DefaultFactory, MyConnector.DefaultFactory)
+            : this(name, uris, MyConnector.DefaultFactory, MySubscriptionManager.DefaultFactory)
         { }
 
         public MyConnection(string[] uris)
@@ -47,7 +43,7 @@ namespace MyClient
 
         public void Open()
         {
-            this._threadUtils.StartNew("MyConnector_" + this._name, this._connector.Connect);
+            this._subscriptionManager.StartConnecting();
         }
 
         public int Subscribe(IMySubscriber subscriber)
@@ -74,7 +70,6 @@ namespace MyClient
             this.Disconnected -= this._subscriptionManager.OnDisconnected;
 
             this._subscriptionManager.Dispose();
-            this._connector.CloseClient();
         }
 
         void IConnectionEventFirer.FireConnected()
