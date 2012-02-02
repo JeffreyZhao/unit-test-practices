@@ -7,7 +7,7 @@ public class Program {
      */
     public static void main(String[] args) {
         
-        final MyDriver driver = new MyDriver("jeffz://server:12345");
+        final MyDriverClient driver = new MyDriverClient("jeffz://server:12345");
 
         try {
         	driver.connect();
@@ -31,7 +31,7 @@ public class Program {
         }).start();
     }
 
-    private static void receiveData(MyDriver driver) {
+    private static void receiveData(MyDriverClient driver) {
         try {
             while (true) {
                 MyData data = driver.receive();

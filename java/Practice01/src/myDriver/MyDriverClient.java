@@ -1,12 +1,13 @@
 package myDriver;
 
+import java.io.Closeable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public final class MyDriver {
+public final class MyDriverClient implements Closeable {
 
     private static final MyData STOP = new MyData(-1, null);
 
@@ -14,25 +15,25 @@ public final class MyDriver {
     private BlockingQueue<MyData> _dataQueue = new LinkedBlockingQueue<MyData>();
     private AtomicBoolean _isClosed = new AtomicBoolean(false);
     
-    public MyDriver(String uri) {
+    public MyDriverClient(String uri) {
         new Thread(new Runnable() {
             
             @Override
             public void run() {
-                MyDriver.this.feedData();
+                MyDriverClient.this.feedData();
             }
             
         }).start();
     }
     
     public void connect() throws MyDriverException {
-    	if (Math.random() < 0.01) {
+    	if (Math.random() < 0.1) {
             throw new MyDriverException("Error occurred when connect.");
         }
     }
     
     public void addQuery(int id) throws MyDriverException {
-        if (Math.random() < 0.01) {
+        if (Math.random() < 0.02) {
             throw new MyDriverException("Error occurred when add query.");
         }
         
@@ -44,7 +45,7 @@ public final class MyDriver {
     }
     
     public void removeQuery(int id) throws MyDriverException {
-        if (Math.random() < 0.01) {
+        if (Math.random() < 0.02) {
             throw new MyDriverException("Error occurred when receive query.");
         }
         

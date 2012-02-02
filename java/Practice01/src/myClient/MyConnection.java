@@ -2,7 +2,7 @@ package myClient;
 
 import java.io.Closeable;
 
-public class MyConnection {
+public class MyConnection implements Closeable {
     
 	public final static int RECONNECT_INTERVAL = 3000;
 	
@@ -18,9 +18,12 @@ public class MyConnection {
         throw new RuntimeException("Not implemented");
     }
 
-    public Closeable subscribe(int queryId, MySubscriber subscriber)
-    {
+    public int subscribe(MySubscriber subscriber) {
         throw new RuntimeException("Not implemented");
+    }
+    
+    public boolean unsubscribe(int subscriptionId) {
+    	throw new RuntimeException("Not implemented");
     }
     
     public synchronized void addConnectionListener(MyConnectionEventListener listener) {
