@@ -11,8 +11,6 @@ namespace MyClient
     {
         private static int _nameSeed = 0;
 
-        public readonly static int ReconnectInterval = 3000;
-
         private string _name;
         private string[] _uris;
         private IMySubscriptionManager _subscriptionManager;
@@ -53,9 +51,9 @@ namespace MyClient
             return subscription.QueryID;
         }
 
-        public void Unsubscribe(int subscriptionId)
+        public bool Unsubscribe(int subscriptionId)
         {
-            this._subscriptionManager.RemoveSubscription(subscriptionId);
+            return this._subscriptionManager.RemoveSubscription(subscriptionId);
         }
 
         public event EventHandler Connected;

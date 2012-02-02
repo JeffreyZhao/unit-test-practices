@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyWork
+namespace MyClient
 {
-    public class MyConnection
+    public class MyConnection : IDisposable
     {
         public readonly static int ReconnectInterval = 3000;
 
@@ -19,12 +19,17 @@ namespace MyWork
             throw new NotImplementedException();
         }
 
-        public void Close()
+        public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        public IDisposable Subscribe(int queryId, IMySubscriber subscriber)
+        public int Subscribe(IMySubscriber subscriber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Unsubscribe(int subscriptionId)
         {
             throw new NotImplementedException();
         }

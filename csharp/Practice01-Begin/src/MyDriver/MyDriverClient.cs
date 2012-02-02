@@ -7,21 +7,21 @@ using System.Collections.Concurrent;
 
 namespace MyDriver
 {
-    public sealed class MyDriver
+    public sealed class MyDriverClient : IDisposable
     {
         private readonly Random _random = new Random(DateTime.Now.Millisecond);
         private readonly HashSet<int> _queryIds = new HashSet<int>();
         private readonly BlockingCollection<MyData> _dataCollection = new BlockingCollection<MyData>(10000);
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public MyDriver(string uri)
+        public MyDriverClient(string uri)
         {
             new Thread(FeedData).Start();
         }
 
         public void Connect()
         {
-            if (this._random.NextDouble() < 0.01)
+            if (this._random.NextDouble() < 0.1)
             {
                 throw new MyDriverException("Error occurred when add query.");
             }
@@ -29,7 +29,7 @@ namespace MyDriver
 
         public void AddQuery(int queryId)
         {
-            if (this._random.NextDouble() < 0.01)
+            if (this._random.NextDouble() < 0.02)
             {
                 throw new MyDriverException("Error occurred when add query.");
             }
@@ -45,7 +45,7 @@ namespace MyDriver
 
         public void RemoveQuery(int queryId)
         {
-            if (this._random.NextDouble() < 0.01)
+            if (this._random.NextDouble() < 0.02)
             {
                 throw new MyDriverException("Error occurred when remove query.");
             }
@@ -56,7 +56,7 @@ namespace MyDriver
             }
         }
 
-        public void Close()
+        public void Dispose()
         {
             this._cts.Cancel();
         }
