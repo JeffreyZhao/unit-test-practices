@@ -56,6 +56,8 @@ namespace MyClient
                 return;
             }
 
+            Logger.Info("Start receiving.");
+
             while (true)
             {
                 MyData data;
@@ -63,6 +65,8 @@ namespace MyClient
                 try
                 {
                     data = client.Receive();
+
+                    Logger.Debug("Message received: " + data);
                 }
                 catch (MyDriverException ex)
                 {

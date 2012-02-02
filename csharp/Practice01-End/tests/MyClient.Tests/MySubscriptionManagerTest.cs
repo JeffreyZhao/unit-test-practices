@@ -146,7 +146,7 @@ namespace MyClient.Tests
         public class OnDisconnected : MySubscriptionManagerTest
         {
             [Fact]
-            public void Call_TokenCanceled()
+            public void Call_TokenCanceled_ReconnectInNewThread()
             {
                 CancellationToken ctPassed = default(CancellationToken);
 
@@ -158,6 +158,13 @@ namespace MyClient.Tests
                 this._manager.OnDisconnected(null, EventArgs.Empty);
 
                 Assert.True(ctPassed.IsCancellationRequested);
+
+                this._threadUtilsMock.Verify(tu => tu.StartNew("MyConnector_" + this._name, It.IsAny<ThreadStart>()), Times.Once());
+
+                this._connectorMock.Setup(c => c.Connect());
+                this._threadUtilsMock.Object.Execute();
+
+                this._connectorMock.Verify(c => c.Connect(), Times.Once());
             }
         }
 

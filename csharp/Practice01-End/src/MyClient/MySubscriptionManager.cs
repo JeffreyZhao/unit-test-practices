@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using MyClient.Threading;
+using log4net;
 
 namespace MyClient
 {
@@ -38,6 +39,8 @@ namespace MyClient
         }
 
         public static readonly IMySubscriptionManagerFactory DefaultFactory = new Factory();
+
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(MySubscriptionManager));
 
         private string _name;
         private IMyConnector _connector;
@@ -122,6 +125,8 @@ namespace MyClient
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void OnConnected(object sender, EventArgs args)
         {
+            Logger.Info("Connected, start workers.");
+
             this._pendingRequests = new BlockingCollection<MyRequest>();
             foreach (var s in this._subscriptions.Values)
             {
@@ -143,10 +148,14 @@ namespace MyClient
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void OnDisconnected(object sender, EventArgs args)
         {
+            Logger.Info("Disconnected, stop exiting workers and reconnect.");
+
             this._pendingRequests = null;
 
             this._cts.Cancel();
             this._cts = null;
+
+            this._threadUtils.StartNew("MyConnector_" + this._name, this._connector.Connect);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

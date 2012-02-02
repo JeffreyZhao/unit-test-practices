@@ -53,6 +53,8 @@ namespace MyClient
                 return;
             }
 
+            Logger.Info("Start sending requests.");
+
             while (true)
             {
                 if (this._pendingRequests.IsCompleted)

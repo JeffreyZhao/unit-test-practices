@@ -5,6 +5,7 @@ using System.Text;
 using MyClient.Driver;
 using log4net;
 using MyClient.Threading;
+using System.Runtime.CompilerServices;
 
 namespace MyClient
 {
@@ -39,6 +40,7 @@ namespace MyClient
         private static ILog Logger = LogManager.GetLogger(typeof(MyConnection));
 
         private int _currentUriIndex = 0;
+        private bool _closingClient;
 
         private string[] _uris;
         private IThreadUtils _threadUtils;
@@ -63,17 +65,12 @@ namespace MyClient
 
         public IMyDriverClient Client { get; private set; }
 
-        public void Connect()
-        {
-            this.Client = this.ConnectUntilSucceeded();
-
-            this._eventFirer.FireConnected();
-        }
-
         private IMyDriverClient ConnectUntilSucceeded()
         {
             while (true)
             {
+                if (this._closingClient) return null;
+
                 var uri = this._uris[this._currentUriIndex];
 
                 Logger.Info("Connecting to " + uri);
@@ -98,15 +95,42 @@ namespace MyClient
             }
         }
 
+        public void Connect()
+        {
+            this._closingClient = false;
+
+            this.Client = this.ConnectUntilSucceeded();
+
+            if (this._closingClient)
+            {
+                if (this.Client != null)
+                {
+                    this.CloseClientInternal();
+                }
+            }
+            else
+            {
+                this._eventFirer.FireConnected();
+            }
+        }
+
+        private void CloseClientInternal()
+        {
+            this.Client.Dispose();
+            this.Client = null;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void CloseClient()
         {
+            this._closingClient = true;
+
             if (this.Client != null)
             {
-                this.Client.Dispose();
-                this.Client = null;
-            }
+                this.CloseClientInternal();
 
-            this._eventFirer.FireDisconnected();
+                this._eventFirer.FireDisconnected();
+            }
         }
     }
 }

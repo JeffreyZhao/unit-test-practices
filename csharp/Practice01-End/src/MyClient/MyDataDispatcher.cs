@@ -52,6 +52,8 @@ namespace MyClient
 
         public void Process()
         {
+            Logger.Info("Start dispatching.");
+
             while (true)
             {
                 if (this._dataCollection.IsCompleted)
